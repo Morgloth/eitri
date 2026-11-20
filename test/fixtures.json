@@ -1,0 +1,19 @@
+[
+ {"files": ["fixture-roguelite/profile.json"], "plugin": "json",
+  "edits": [{"path": ["gold"], "value": 99999}, {"path": ["player", "name"], "value": "Grace"}, {"path": ["playtime"], "value": "40000.0"}]},
+ {"files": ["fixture-roguelite/history.jsonl"], "plugin": "json", "edits": [{"path": [1, "floor"], "value": 10}]},
+ {"files": ["fixture-xor/run.autosave"], "plugin": "json-xor", "edits": [{"path": ["gold"], "value": 500}]},
+ {"files": ["fixture-checksum/SaveData"], "plugin": "json", "rule": "vampire-survivors-checksum", "quick": ["Coins"],
+  "edits": [{"path": ["Coins"], "value": 99999, "linked": ["checksum"], "check": "ruleStillMatches"}]},
+ {"files": ["fixture-quest/file1.rpgsave"], "plugin": "rpgmaker-mv",
+  "edits": [{"path": ["party", "_gold"], "value": 99999}, {"path": ["variables", "_data", "@a", 5], "value": 3}]},
+ {"files": ["fixture-quest/global.rpgsave"], "plugin": "rpgmaker-mv"},
+ {"files": ["fixture-renpy/1-1-LT1.save"], "plugin": "renpy", "quick": ["money", "week"],
+  "edits": [{"path": ["log", 0, "store.money"], "value": 5000, "check": "renpySigned"}]},
+ {"files": ["fixture-renpy/persistent"], "plugin": "renpy", "edits": [{"path": ["endings"], "value": 3}]},
+ {"files": ["fixture-unreal/SaveSlot_0.sav"], "plugin": "gvas", "quick": ["Gold", "Level"],
+  "edits": [{"path": ["Gold"], "value": 77777}, {"path": ["PlayerName"], "value": "A longer name than before"}, {"path": ["TotalXP"], "value": "9007199254740999"}]},
+ {"files": ["fixture-godot/savegame_0.json"], "plugin": "godot-encrypted", "rule": "dome-keeper-quick",
+  "edits": [{"path": ["runCount"], "value": 9}]},
+ {"files": ["fixture-godot/savegame3.json"], "plugin": "godot-encrypted", "edits": [{"path": ["Data", "inventory.iron"], "value": 999}]}
+]

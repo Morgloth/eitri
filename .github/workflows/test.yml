@@ -1,0 +1,39 @@
+name: test
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Lint
+        run: |
+          pip install ruff==0.8.4
+          ruff check .
+          for f in static/*.js static/lib/*/*.js test/*.js; do node --check "$f"; done
+      - name: Plugin round trips (Node, made-up saves)
+        run: node test/run.js
+      - name: Server API
+        run: python test/server-check.py
+      - name: Browser
+        run: |
+          pip install playwright==1.49.1
+          python -m playwright install --with-deps chromium
+          python test/browser-check.py
+          python test/page-check.py --shots shots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots
+          path: shots/
+          if-no-files-found: ignore

@@ -1,0 +1,9 @@
+# your library: real saves and key files never go in git
+saves/
+*.rpgsave
+*.sav
+*.save
+security_keys.txt
+*password*.txt
+__pycache__/
+.ruff_cache/

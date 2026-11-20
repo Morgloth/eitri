@@ -1,0 +1,15 @@
+target-version = "py310"
+line-length = 130
+
+[lint]
+select = ["E", "F", "W", "B", "PLE", "S"]
+ignore = [
+    "E501",    # long lines: tables of checks read better unwrapped
+    "S101",    # assert in tests
+    "S310",    # urlopen: fixed Steam / PCGamingWiki / localhost URLs
+    "S603",    # subprocess without shell: fixed argv
+    "S607",    # partial executable path (node) in tests
+    "S110",    # try/except/pass
+    "S112",    # try/except/continue
+    "B904",    # raise from inside except: ApiError messages are deliberate
+]

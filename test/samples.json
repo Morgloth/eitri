@@ -1,0 +1,463 @@
+[
+ {
+  "files": [
+   "brotato/save_v3_2.json"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "brotato/run_v3_2.json"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "brotato/run_v3_2_02.json.bak"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "brotato/save.json"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire-2/progress.save"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire-2/profile1-progress.save"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire-2/current_run.save"
+  ],
+  "plugin": "json",
+  "edits": [
+   {
+    "path": [
+     "acts",
+     0,
+     "id"
+    ],
+    "value": "ACT.HIVE"
+   }
+  ]
+ },
+ {
+  "files": [
+   "slay-the-spire-2/1773092013.run"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "inscryption/SaveFile.gwsave"
+  ],
+  "plugin": "json",
+  "edits": [
+   {
+    "path": [
+     "randomSeed"
+    ],
+    "value": 42
+   }
+  ]
+ },
+ {
+  "files": [
+   "monster-train/metagameSave.json"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "monster-train/save-singlePlayer.json"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "dome-keeper/options.txt"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire/STSPlayer"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire/STSSaveSlots"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire/STSUnlockProgress"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire/DEFECT.autosaveBETA"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "slay-the-spire/IRONCLAD.autosave"
+  ],
+  "plugin": "json-xor",
+  "edits": [
+   {
+    "path": [
+     "gold"
+    ],
+    "value": 999
+   }
+  ],
+  "quick": [
+   "gold"
+  ]
+ },
+ {
+  "files": [
+   "slay-the-spire/IRONCLAD.autosave.backUp"
+  ],
+  "plugin": "json-xor"
+ },
+ {
+  "files": [
+   "vampire-survivors/SaveData"
+  ],
+  "plugin": "json",
+  "rule": "vampire-survivors-checksum",
+  "quick": [
+   "Coins"
+  ],
+  "edits": [
+   {
+    "path": [
+     "Coins"
+    ],
+    "value": 999999,
+    "expect": "999999.0",
+    "linked": [
+     "checksum"
+    ],
+    "check": "ruleStillMatches"
+   }
+  ]
+ },
+ {
+  "files": [
+   "vampire-survivors/SaveData2"
+  ],
+  "plugin": "json",
+  "rule": "vampire-survivors-checksum",
+  "edits": [
+   {
+    "path": [
+     "Coins"
+    ],
+    "value": 5000,
+    "expect": "5000.0",
+    "linked": [
+     "checksum"
+    ],
+    "check": "ruleStillMatches"
+   }
+  ]
+ },
+ {
+  "files": [
+   "vampire-survivors/electron-2022-SaveData.sav"
+  ],
+  "plugin": "json"
+ },
+ {
+  "files": [
+   "long-live-the-queen/1-1-LT1.save"
+  ],
+  "plugin": "renpy",
+  "edits": [
+   {
+    "path": [
+     "log",
+     0,
+     "store.dance"
+    ],
+    "value": 40,
+    "linked": [
+     "log[0][\"store.dance_\"]"
+    ],
+    "check": "renpySigned"
+   },
+   {
+    "path": [
+     "log",
+     0,
+     "store.court_manners_"
+    ],
+    "value": 50,
+    "linked": [
+     "log[0][\"store.court_manners\"]"
+    ],
+    "check": "renpySigned"
+   },
+   {
+    "path": [
+     "log",
+     0,
+     "store.anger"
+    ],
+    "value": 3,
+    "check": "renpySigned"
+   },
+   {
+    "path": [
+     "log",
+     0,
+     "store.mood"
+    ],
+    "value": "Cheerful",
+    "check": "renpySigned"
+   }
+  ],
+  "rule": "long-live-the-queen-skills"
+ },
+ {
+  "files": [
+   "long-live-the-queen/auto-1-LT1.save"
+  ],
+  "plugin": "renpy",
+  "edits": [
+   {
+    "path": [
+     "log",
+     0,
+     "store.social_bonus"
+    ],
+    "value": 2.5,
+    "expect": "2.5",
+    "check": "renpySigned"
+   }
+  ]
+ },
+ {
+  "files": [
+   "long-live-the-queen/persistent"
+  ],
+  "plugin": "renpy",
+  "edits": [
+   {
+    "path": [
+     "_preferences",
+     "text_cps"
+    ],
+    "value": 40,
+    "check": "renpySigned"
+   }
+  ]
+ },
+ {
+  "files": [
+   "clair-obscur-expedition-33/SavesContainer.sav"
+  ],
+  "plugin": "gvas",
+  "edits": [
+   {
+    "path": [
+     "SaveSlots",
+     0,
+     "MetaData_11_38007BD8468B2FD5C72B9E9C78557279",
+     "LastMap_3_C6EC466D4499E9E35F97088B929675EA"
+    ],
+    "value": "Lumi\u00e8re"
+   }
+  ]
+ },
+ {
+  "files": [
+   "clair-obscur-expedition-33/EXPEDITION_1.sav"
+  ],
+  "plugin": "gvas",
+  "rule": "clair-obscur-quick",
+  "quick": [
+   "Gold"
+  ],
+  "edits": [
+   {
+    "path": [
+     "Gold"
+    ],
+    "value": 9999999
+   },
+   {
+    "path": [
+     "CharactersCollection",
+     0,
+     "value",
+     "IsExcluded_206_5D433A504D71F6A2FC9057945C23DDFB"
+    ],
+    "value": true,
+    "expect": "true"
+   },
+   {
+    "path": [
+     "TimePlayed"
+    ],
+    "value": 120000.5
+   },
+   {
+    "path": [
+     "NotificationPools",
+     0,
+     "key",
+     "TagName"
+    ],
+    "value": "UI.Notifications.Items.WeaponsLonger"
+   }
+  ]
+ },
+ {
+  "files": [
+   "lies-of-p/Account_1.sav"
+  ],
+  "plugin": "gvas",
+  "edits": [
+   {
+    "path": [
+     "AchievementSaveData",
+     "StatusInfoList",
+     0,
+     "AllComplete"
+    ],
+    "value": true,
+    "expect": "true"
+   }
+  ]
+ },
+ {
+  "files": [
+   "lies-of-p/SaveData-1_Character_1.sav"
+  ],
+  "plugin": "gvas",
+  "rule": "lies-of-p-quick",
+  "quick": [
+   "Level"
+  ],
+  "edits": [
+   {
+    "path": [
+     "CharacterSaveData",
+     "PlayerLevel"
+    ],
+    "value": 99
+   },
+   {
+    "path": [
+     "CharacterSaveData",
+     "AfterStarterPack"
+    ],
+    "value": false,
+    "expect": "false"
+   },
+   {
+    "path": [
+     "CharacterSaveData",
+     "CharacterAbnormal",
+     "PlayerAbnormals",
+     0,
+     "BuildupGauge"
+    ],
+    "value": 12.5,
+    "expect": "12.5"
+   },
+   {
+    "path": [
+     "CharacterSaveData",
+     "CharacterName"
+    ],
+    "value": "Pinocchio"
+   }
+  ]
+ },
+ {
+  "files": [
+   "dome-keeper/savegame_0.json"
+  ],
+  "plugin": "godot-encrypted",
+  "rule": "dome-keeper-quick",
+  "quick": [
+   "Iron",
+   "Water",
+   "Cobalt"
+  ],
+  "edits": [
+   {
+    "path": [
+     "Data",
+     "inventory.iron"
+    ],
+    "value": 9999
+   },
+   {
+    "path": [
+     "RunTime"
+    ],
+    "value": 5.25
+   }
+  ]
+ },
+ {
+  "files": [
+   "dome-keeper/savegame4_full0.json"
+  ],
+  "plugin": "godot-encrypted",
+  "rule": "dome-keeper-quick",
+  "quick": [
+   "Run count"
+  ],
+  "edits": [
+   {
+    "path": [
+     "runCount"
+    ],
+    "value": 150
+   }
+  ]
+ },
+ {
+  "files": [
+   "dome-keeper/savegame_full.json"
+  ],
+  "plugin": "godot-encrypted",
+  "edits": [
+   {
+    "path": [
+     "lastGadgetId"
+    ],
+    "value": "shield"
+   }
+  ]
+ },
+ {
+  "files": [
+   "dome-keeper/savegame_0_map.scn"
+  ],
+  "plugin": "godot-rsrc",
+  "status": "untested",
+  "note": "binary RSRC tile map, no plugin yet"
+ }
+]

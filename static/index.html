@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Eitri</title>
+  <!-- Eitri: save library + editor. All save parsing runs here in the browser (static/lib); the server only
+       stores files (saves.py, API.md). Script order: test/load-order.json. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='4 3 24 26'%3E%3Cpath d='M11.5 5.5v21M11.5 10.5l8 5.5-8 5.5' fill='none' stroke='%23d4ec5c' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/base.css">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body class="realm realm-eitri">
+  <div class="wrap">
+    <header class="top">
+      <h1><a class="title-link" href="#" title="Library"><svg class="rune" viewBox="4 3 24 26" aria-hidden="true"><path d="M11.5 5.5v21M11.5 10.5l8 5.5-8 5.5"/></svg><span class="norse">Eitri</span><span class="what">Saves</span></a></h1>
+      <span class="sub" id="sub">Save-game library and editor: every upload and edit kept as a version</span>
+    </header>
+    <div class="banner bad" id="err" hidden></div>
+
+    <!-- Library -->
+    <section class="view" id="view-lib">
+      <div class="toolbar">
+        <input type="search" class="field search" id="lib-q" placeholder="Search games" aria-label="Search games" autocomplete="off">
+        <span class="muted small" id="lib-count"></span>
+      </div>
+      <div class="tiles" id="tiles"></div>
+    </section>
+
+    <!-- Game page -->
+    <section class="view" id="view-game" hidden>
+      <div class="ghead card pad" id="g-head"></div>
+      <div class="banner warn" id="g-cloud" hidden>
+        <span>PCGamingWiki says this game uses <b>Steam Cloud</b>: turn Steam Cloud off for this game or it may put the old save back.</span>
+        <label class="check"><input type="checkbox" id="g-cloud-ack"> Steam Cloud is off</label>
+      </div>
+      <div class="gcols">
+        <div class="gmain">
+          <div class="card pad" id="g-upload">
+            <h2 class="sec">Upload saves</h2>
+            <p class="hint">One or more files make one version (e.g. RPG Maker <code>file1.rpgsave</code> + <code>global.rpgsave</code>). Kept byte for byte as an original.</p>
+            <label class="drop" id="g-drop"><input type="file" id="g-files" multiple><span>Drop save files here or <u>choose files</u></span></label>
+            <div id="g-up-info" class="upinfo" hidden></div>
+          </div>
+          <div class="card pad">
+            <div class="row spread"><h2 class="sec">Versions</h2><span class="muted small" id="g-vcount"></span></div>
+            <div class="vlist" id="g-versions"></div>
+          </div>
+          <div class="card pad" id="g-diffcard">
+            <h2 class="sec">Compare two versions</h2>
+            <div class="diffbar">
+              <select class="field" id="d-a" aria-label="Older version"></select>
+              <span class="muted">→</span>
+              <select class="field" id="d-b" aria-label="Newer version"></select>
+              <button class="btn" id="d-go" type="button">Compare</button>
+            </div>
+            <div id="d-out"></div>
+          </div>
+        </div>
+        <div class="gside">
+          <div class="card pad" id="g-notes">
+            <h2 class="sec">Notes</h2>
+            <label class="lbl">Name <input class="field" id="n-name" maxlength="100"></label>
+            <div class="two">
+              <label class="lbl">Plugin <select class="field" id="n-plugin"></select></label>
+              <label class="lbl">Engine <input class="field" id="n-engine" maxlength="100"></label>
+            </div>
+            <label class="lbl">Notes <textarea class="field" id="n-notes" rows="4" maxlength="100000"></textarea></label>
+            <label class="lbl">Known rules <textarea class="field" id="n-rules" rows="3" maxlength="20000"></textarea></label>
+            <label class="check small"><input type="checkbox" id="n-cloud"> Steam Cloud is off for this game</label>
+            <div class="row"><span class="status" id="n-status"></span><button class="btn primary" id="n-save" type="button">Save notes</button></div>
+          </div>
+          <div class="card pad" id="g-loc">
+            <h2 class="sec">Save location</h2>
+            <div id="l-paths"></div>
+            <p class="hint" id="l-source"></p>
+            <details class="more" id="l-edit">
+              <summary>Edit save location</summary>
+              <label class="lbl">Your own save path, one per line (blank = looked-up or engine default)
+                <textarea class="field mono" id="l-user" rows="3" maxlength="5000" spellcheck="false"></textarea></label>
+              <div id="l-looked"></div>
+            </details>
+            <label class="lbl"><span>Install folder <span class="muted">(the game's top folder, not the .exe; fills in &lt;install&gt;)</span></span>
+              <input class="field" id="l-install" maxlength="500" placeholder="empty = not set. Example: C:\Program Files (x86)\Steam\steamapps\common\Game" spellcheck="false"></label>
+            <div class="row"><span class="status" id="l-status"></span><button class="btn" id="l-lookup" type="button">Look up again</button><button class="btn primary" id="l-save" type="button">Save</button></div>
+          </div>
+          <div class="card pad" id="g-keys">
+            <h2 class="sec">Key files</h2>
+            <p class="hint" id="k-hint">Some formats need a key from the game to re-encode: Ren'Py <code>security_keys.txt</code>, a Godot password file (<code>*password*.txt</code>). Kept in the game's folder next to its saves.</p>
+            <ul class="keys" id="k-list"></ul>
+            <div class="row"><label class="btn small filebtn">Add key file<input type="file" id="k-file" multiple hidden></label></div>
+          </div>
+          <div class="card pad" id="g-steam">
+            <h2 class="sec">Steam match and cover</h2>
+            <div id="s-now" class="hint"></div>
+            <div class="toolbar tight">
+              <input type="search" class="field search" id="s-q" placeholder="Search Steam" aria-label="Search Steam" autocomplete="off">
+              <button class="btn" id="s-go" type="button">Search</button>
+            </div>
+            <div class="picks" id="s-picks"></div>
+            <div class="row gap-top">
+              <label class="btn small filebtn">Upload cover<input type="file" id="c-file" accept="image/jpeg,image/png,image/webp" hidden></label>
+              <button class="btn small" id="c-steam" type="button">Cover from Steam</button>
+              <button class="btn small" id="c-del" type="button">Remove cover</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editor -->
+    <section class="view" id="view-edit" hidden>
+      <div class="card pad" id="e-head"></div>
+      <div class="gcols">
+        <div class="gmain">
+          <div class="card pad" id="e-quickcard">
+            <h2 class="sec">Quick fields</h2>
+            <div class="qf" id="e-quick"></div>
+            <p class="hint" id="e-pinhint">Pin any field with ☆ in All fields to keep it here, under your own name. Pins are kept per game, for every version.</p>
+          </div>
+          <div class="card pad">
+            <div class="row spread"><h2 class="sec">All fields</h2><span class="muted small" id="e-fcount"></span></div>
+            <div class="toolbar tight">
+              <input type="search" class="field search" id="e-q" placeholder="Search by name or value (e.g. gold, 99999)" aria-label="Search fields" autocomplete="off">
+            </div>
+            <div class="tree" id="e-tree"></div>
+            <div class="sres" id="e-results" hidden></div>
+          </div>
+        </div>
+        <div class="gside">
+          <div class="card pad sticky" id="e-changes">
+            <h2 class="sec">Changes</h2>
+            <div id="e-chlist"><p class="hint">Nothing changed yet.</p></div>
+            <label class="lbl">Label <input class="field" id="e-label" maxlength="200" placeholder="filled in from the changes"></label>
+            <label class="lbl">Note <input class="field" id="e-note" maxlength="2000" placeholder="optional"></label>
+            <div class="row"><button class="btn" id="e-reset" type="button">Undo all</button><button class="btn primary" id="e-export" type="button" disabled>Save as new version + download</button></div>
+            <div class="status" id="e-status"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <dialog id="dlg-new">
+      <form method="dialog" id="new-form">
+        <h2>New game</h2>
+        <label class="lbl">Name <input class="field" id="new-name" maxlength="100" required autocomplete="off"></label>
+        <div class="row"><span class="hint">Pick the Steam match for the cover and the save-location lookup.</span><button class="btn small" id="new-search" type="button">Search Steam</button></div>
+        <div class="picks" id="new-picks"></div>
+        <label class="lbl" id="new-cover-wrap" hidden>Cover image (optional; otherwise the rune) <input type="file" class="field" id="new-cover" accept="image/jpeg,image/png,image/webp"></label>
+        <label class="lbl">First save (optional) <input type="file" class="field" id="new-files" multiple></label>
+        <div class="hint" id="new-detect"></div>
+        <div class="two">
+          <label class="lbl">Plugin <select class="field" id="new-plugin"></select></label>
+          <label class="lbl">Engine <input class="field" id="new-engine" maxlength="100"></label>
+        </div>
+        <div class="status" id="new-status"></div>
+        <div class="actions"><button class="btn" value="cancel" formnovalidate type="submit">Cancel</button><button class="btn primary" id="new-ok" type="button">Create</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-confirm">
+      <form method="dialog">
+        <h2 id="cf-title">Delete?</h2>
+        <p id="cf-text" class="hint"></p>
+        <div class="actions"><button class="btn" value="no" type="submit">Cancel</button><button class="btn danger-fill" value="yes" type="submit" id="cf-yes">Delete</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-prompt">
+      <form method="dialog">
+        <h2 id="pr-title">Name</h2>
+        <label class="lbl"><span id="pr-text" class="hint"></span><input class="field" id="pr-input" maxlength="100" spellcheck="false" autocomplete="off"></label>
+        <div class="actions"><button class="btn" value="no" type="submit">Cancel</button><button class="btn primary" value="yes" type="submit" id="pr-yes">OK</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <footer class="site">Eitri · single-player save editor · back up your saves first. Built with help from Claude, an AI assistant made by Anthropic.</footer>
+  </div>
+  <script id="initial-data" type="application/json">__INITIAL_DATA__</script>
+  <script src="/static/common.js"></script>
+  <script src="/static/lib/vendor/lz-string.js"></script>
+  <script src="/static/lib/core/eitri.js"></script>
+  <script src="/static/lib/core/pickle.js"></script>
+  <script src="/static/lib/core/zip.js"></script>
+  <script src="/static/lib/core/aes.js"></script>
+  <script src="/static/lib/plugins/json.js"></script>
+  <script src="/static/lib/plugins/rpgmaker.js"></script>
+  <script src="/static/lib/plugins/renpy.js"></script>
+  <script src="/static/lib/games/vampire-survivors.js"></script>
+  <script src="/static/lib/games/long-live-the-queen.js"></script>
+  <script src="/static/lib/plugins/gvas.js"></script>
+  <script src="/static/lib/plugins/godot-encrypted.js"></script>
+  <script src="/static/lib/games/unreal-quick.js"></script>
+  <script src="/static/lib/games/dome-keeper.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
